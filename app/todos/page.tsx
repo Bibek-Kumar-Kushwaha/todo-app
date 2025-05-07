@@ -9,12 +9,13 @@ interface PageProps {
 }
 
 export default async function TodosPage({ searchParams }: PageProps) {
-  const search = typeof searchParams?.search === "string" ? searchParams.search : undefined;
-  const page = Number.isFinite(parseInt(searchParams?.page as string))
-    ? parseInt(searchParams?.page as string)
+  const awaitedSearchParams = await Promise.resolve(searchParams);
+  const search = typeof awaitedSearchParams?.search === "string" ? awaitedSearchParams.search : undefined;
+  const page = Number.isFinite(parseInt(awaitedSearchParams?.page as string))
+    ? parseInt(awaitedSearchParams?.page as string)
     : 1;
-  const limit = Number.isFinite(parseInt(searchParams?.limit as string))
-    ? parseInt(searchParams?.limit as string)
+  const limit = Number.isFinite(parseInt(awaitedSearchParams?.limit as string))
+    ? parseInt(awaitedSearchParams?.limit as string)
     : 2;
 
   const { todos, total, totalPages, currentPage } = await getTodos(search, page, limit);

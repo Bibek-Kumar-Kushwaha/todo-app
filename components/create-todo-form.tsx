@@ -8,7 +8,7 @@ import { Button } from "./ui/button";
 import { createTodo } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { FormInput } from "./form-input";
+import { FormInput } from "@/components/form-input";
 
 export default function CreateTodoForm() {
   const router = useRouter();
