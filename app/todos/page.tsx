@@ -4,18 +4,17 @@ import SearchBar from "@/components/search-bar";
 import PaginationControls from "@/components/pagination-controls";
 import CreateTodoForm from "@/components/create-todo-form";
 
-export default async function TodosPage({
-  searchParams,
-}: {
+interface PageProps {
   searchParams?: { [key: string]: string | string[] | undefined };
-}) {
-  // No need to await searchParams - it's already an object
+}
+
+export default async function TodosPage({ searchParams }: PageProps) {
   const search = typeof searchParams?.search === "string" ? searchParams.search : undefined;
-  const page = Number.isFinite(parseInt(searchParams?.page as string)) 
-    ? parseInt(searchParams?.page as string) 
+  const page = Number.isFinite(parseInt(searchParams?.page as string))
+    ? parseInt(searchParams?.page as string)
     : 1;
-  const limit = Number.isFinite(parseInt(searchParams?.limit as string)) 
-    ? parseInt(searchParams?.limit as string) 
+  const limit = Number.isFinite(parseInt(searchParams?.limit as string))
+    ? parseInt(searchParams?.limit as string)
     : 2;
 
   const { todos, total, totalPages, currentPage } = await getTodos(search, page, limit);
