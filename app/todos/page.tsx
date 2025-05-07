@@ -7,29 +7,35 @@ import CreateTodoForm from "@/components/create-todo-form";
 export default async function TodosPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[]>;
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
+  const search = typeof searchParams?.search === "string" ? searchParams.search : undefined;
+  const page = Number.isFinite(Number(searchParams?.page))
+    ? Number(searchParams?.page)
+    : 1;
+  const limit = Number.isFinite(Number(searchParams?.limit))
+    ? Number(searchParams?.limit)
+    : 2;
 
-  const { todos} = await getTodos();
+  const { todos, total, totalPages, currentPage } = await getTodos(search, page, limit);
 
   return (
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        {/* <h1 className="text-2xl font-bold">
+        <h1 className="text-2xl font-bold">
           {search ? `Results for "${search}"` : "My Todos"}
-        </h1> */}
-        {/* <SearchBar search={search} /> */}
+        </h1>
+        <SearchBar search={search} />
       </div>
       <CreateTodoForm />
       <TodoList todos={todos} />
-      {/* <PaginationControls
+      <PaginationControls
         currentPage={currentPage}
         totalPages={totalPages}
         totalItems={total}
         limit={limit}
         search={search}
-      /> */}
+      />
     </div>
   );
 }
-

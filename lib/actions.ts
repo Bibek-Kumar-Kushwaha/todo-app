@@ -112,7 +112,7 @@ export async function toggleTodo(formData: FormData) {
   revalidatePath("/todos");
 }
 
-export async function getTodos(search?: string, page = 1, limit = 10) {
+export async function getTodos(search?: string, page: number = 1, limit: number = 10) {
   const internalUserId = await getInternalUserId();
   
   const skip = (page - 1) * limit;
