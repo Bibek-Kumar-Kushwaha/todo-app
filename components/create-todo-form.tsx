@@ -33,7 +33,7 @@ export default function CreateTodoForm() {
       form.reset();
       router.refresh();
       toast.success('Todo created successfully');
-    } catch (error) {
+    } catch (_error) {
       toast.error('Failed to create todo');
     }
   };
