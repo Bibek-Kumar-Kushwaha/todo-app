@@ -4,18 +4,15 @@ import SearchBar from "@/components/search-bar";
 import PaginationControls from "@/components/pagination-controls";
 import CreateTodoForm from "@/components/create-todo-form";
 
-export default async function TodosPage({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+export default async function TodosPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const search = typeof searchParams?.search === "string" ? searchParams.search : undefined;
-  const page = Number.isFinite(Number(searchParams?.page))
-    ? Number(searchParams?.page)
-    : 1;
-  const limit = Number.isFinite(Number(searchParams?.limit))
-    ? Number(searchParams?.limit)
-    : 2;
+  // Wait for Next.js to resolve the URL params
+  const { search, page, limit } = await props.searchParams.then(sp => ({
+    search: typeof sp.search === 'string' ? sp.search : undefined,
+    page: Number.isFinite(Number(sp.page)) ? Number(sp.page) : 1,
+    limit: Number.isFinite(Number(sp.limit)) ? Number(sp.limit) : 2,
+  }));
 
   const { todos, total, totalPages, currentPage } = await getTodos(search, page, limit);
 
